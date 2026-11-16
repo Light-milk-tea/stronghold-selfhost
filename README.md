@@ -1,4 +1,4 @@
-# 卫戌协议自建部署
+# 卫戍协议自建部署
 
 把上游 [Stronghold-Protocol v0.4.0](https://github.com/sganggs/Stronghold-Protocol/releases/tag/v0.4.0) 装到一台已经有网站的 Linux 服务器上。游戏只监听 `127.0.0.1:3000`，对外用 `https://play.qimiyo.online/`。安装脚本不修改 `www.qimiyo.online` 的站点配置。
 
@@ -22,8 +22,8 @@ sudo bash deploy/install.sh
 
 - `curl -I http://127.0.0.1:3000/` 有响应，说明游戏进程在。
 - `https://www.qimiyo.online/` 仍是原来的封面站。
-- `https://play.qimiyo.online/` 打开的是卫戌协议。
-- 这台服务器现在的证书、反代和素材状态写在 [卫戌协议.md](卫戌协议.md)。
+- `https://play.qimiyo.online/` 打开的是卫戍协议。
+- 这台服务器现在的证书、反代和素材状态写在 [卫戍协议.md](卫戍协议.md)。
 
 日志：`journalctl -u stronghold -f`
 
