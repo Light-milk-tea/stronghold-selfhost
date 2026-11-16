@@ -69,7 +69,7 @@ install_node() {
   line="$(awk -v arch="$arch" '$2 ~ ("node-v22[.][0-9.]+-linux-" arch "[.]tar[.]xz$") { print $2; exit }' "$sums")"
   rm -f "$sums"
   [[ -n "$line" ]] || die "版本清单里没有 linux-${arch} 的 Node.js 22 压缩包"
-  ver="${line#node-}"
+  ver="${line#node-v}"
   ver="${ver%-linux-${arch}.tar.xz}"
   file="node-v${ver}-linux-${arch}.tar.xz"
   tmp="$(mktemp --suffix=.tar.xz)"
