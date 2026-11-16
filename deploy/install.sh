@@ -209,7 +209,7 @@ configure_proxy() {
     log "没有 /etc/nginx/conf.d。请手动安装 ${SCRIPT_DIR}/nginx-play.qimiyo.online.conf"
     return
   fi
-  if [[ -f "$NGINX_DEST" ]] && grep -q "ssl_certificate" "$NGINX_DEST"; then
+  if [[ -f "$NGINX_DEST" ]] && grep -Eq '^[[:space:]]*ssl_certificate[[:space:]]' "$NGINX_DEST"; then
     log "保留已有 HTTPS 配置：$NGINX_DEST"
   else
     install -m 0644 "$SCRIPT_DIR/nginx-play.qimiyo.online.conf" "$NGINX_DEST"
@@ -224,7 +224,7 @@ configure_proxy() {
     log "  sudo certbot --nginx -d ${DOMAIN} --redirect"
     return
   fi
-  if [[ -f "$NGINX_DEST" ]] && grep -q "ssl_certificate" "$NGINX_DEST"; then
+  if [[ -f "$NGINX_DEST" ]] && grep -Eq '^[[:space:]]*ssl_certificate[[:space:]]' "$NGINX_DEST"; then
     log "证书配置已在，跳过 certbot"
     return
   fi
