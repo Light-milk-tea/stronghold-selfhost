@@ -1,0 +1,6 @@
+# 加到现有 Caddyfile，不要改封面站 www.qimiyo.online 的站点块。
+# 然后执行：sudo systemctl reload caddy
+
+play.qimiyo.online {
+	reverse_proxy 127.0.0.1:3000
+}
