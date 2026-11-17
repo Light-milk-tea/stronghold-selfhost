@@ -72,4 +72,6 @@ public/dev/simcheck/data/
 # 3× / 4× speed buttons are edited from the official 2× icon and stay on the server only
 /public/img/btn_speed_3x.png
 /public/img/btn_speed_4x.png
-.cursor/
+.cursor/*
+!.cursor/skills/
+!.cursor/skills/**
