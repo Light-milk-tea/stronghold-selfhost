@@ -4,11 +4,11 @@
 # 可重复执行。重复执行会重启游戏进程，正在进行的对局会结束。
 set -euo pipefail
 
-TAG="v0.4.0"
+BRANCH="main"
 APP_DIR="/opt/Stronghold-Protocol"
 NODE_DIR="/opt/node-v22"
-UPSTREAM="https://github.com/sganggs/Stronghold-Protocol.git"
-UPSTREAM_MIRROR="https://gh-proxy.com/https://github.com/sganggs/Stronghold-Protocol.git"
+UPSTREAM="https://github.com/Light-milk-tea/stronghold-selfhost.git"
+UPSTREAM_MIRROR="https://gh-proxy.com/https://github.com/Light-milk-tea/stronghold-selfhost.git"
 DOMAIN="play.qimiyo.online"
 MIN_FREE_MB=3072
 SERVICE_USER="stronghold"
@@ -97,27 +97,26 @@ app_git() {
 clone_or_update() {
   local url
   if [[ -d "$APP_DIR/.git" ]]; then
-    if app_git describe --tags --exact-match HEAD 2>/dev/null | grep -qx "$TAG"; then
-      log "游戏代码已是 $TAG"
-      return
-    fi
-    log "更新游戏代码到 $TAG"
-    app_git fetch --depth 1 origin "tag" "$TAG" \
-      || app_git fetch --depth 1 origin "+refs/tags/${TAG}:refs/tags/${TAG}"
-    app_git checkout --detach "$TAG"
-    return
+    log "更新游戏代码到本仓库 $BRANCH"
+    for url in "$UPSTREAM" "$UPSTREAM_MIRROR"; do
+      if app_git fetch --depth 1 "$url" "$BRANCH"; then
+        app_git checkout -f FETCH_HEAD
+        return
+      fi
+    done
+    die "更新游戏代码失败"
   fi
   if [[ -e "$APP_DIR" ]]; then
     die "$APP_DIR 已存在，但不是游戏仓库。请换目录或先移走它"
   fi
   for url in "$UPSTREAM" "$UPSTREAM_MIRROR"; do
-    log "克隆 $url ($TAG)"
-    if git clone --depth 1 --branch "$TAG" "$url" "$APP_DIR"; then
+    log "克隆 $url ($BRANCH)"
+    if git clone --depth 1 --branch "$BRANCH" "$url" "$APP_DIR"; then
       return
     fi
     rm -rf "$APP_DIR"
   done
-  die "克隆上游仓库失败"
+  die "克隆仓库失败"
 }
 
 install_app() {
